@@ -13,6 +13,9 @@ jobs:
 
   main_ci:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
