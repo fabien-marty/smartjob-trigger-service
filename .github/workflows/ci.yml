@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+env:
+  POETRY_HOME: /opt/poetry
+
+jobs:
+
+  lint_and_test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: |
+          python3 -m venv $POETRY_HOME
+          $POETRY_HOME/bin/pip install poetry
+      - name: Fix github path
+        run: |
+          echo "$POETRY_HOME/bin" >> "$GITHUB_PATH"
+      - name: Install requirements
+        run: |
+          poetry install
+      - name: Run lint
+        run: |
+          make lint
+      - name: Checking for dirty files
+        run: |
+          make no-dirty
+      - name: Cleaning
+        run: |
+          make clean
+      - name: Checking for dirty files (again)
+        run: |
+          make no-dirty
