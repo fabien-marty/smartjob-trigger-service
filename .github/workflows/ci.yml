@@ -6,10 +6,12 @@ on:
 
 env:
   POETRY_HOME: /opt/poetry
+  GHCR_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
 
-  lint_and_test:
+  main_ci:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
@@ -40,3 +42,23 @@ jobs:
       - name: Checking for dirty files (again)
         run: |
           make no-dirty
+      - name: Login to GitHub Container Registry
+        if: "${{ github.event_name == 'push' }}"
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # tag: v3
+        with:
+          registry: ${{ env.GHCR_REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        if: "${{ github.event_name == 'push' }}"
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and push dev/run image
+        if: "${{ github.event_name == 'push' }}"
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
