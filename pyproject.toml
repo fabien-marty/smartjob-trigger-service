@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "smartjob-trigger-service"
+version = "0.0.1"
+description = ""
+authors = ["Fabien MARTY <fab@fabien-marty.dev>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+smartjob = "^0.0.6"
+fastapi = {extras = ["standard"], version = "^0.112.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.6"
+mypy = "^1.11.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
