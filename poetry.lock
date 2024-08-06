@@ -685,18 +685,18 @@ protobuf = ["grpcio-tools (>=1.65.4)"]
 
 [[package]]
 name = "grpcio-status"
-version = "1.62.2"
+version = "1.62.3"
 description = "Status proto mapping for gRPC"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "grpcio-status-1.62.2.tar.gz", hash = "sha256:62e1bfcb02025a1cd73732a2d33672d3e9d0df4d21c12c51e0bbcaf09bab742a"},
-    {file = "grpcio_status-1.62.2-py3-none-any.whl", hash = "sha256:206ddf0eb36bc99b033f03b2c8e95d319f0044defae9b41ae21408e7e0cda48f"},
+    {file = "grpcio-status-1.62.3.tar.gz", hash = "sha256:289bdd7b2459794a12cf95dc0cb727bd4a1742c37bd823f760236c937e53a485"},
+    {file = "grpcio_status-1.62.3-py3-none-any.whl", hash = "sha256:f9049b762ba8de6b1086789d8315846e094edac2c50beaf462338b301a8fd4b8"},
 ]
 
 [package.dependencies]
 googleapis-common-protos = ">=1.5.5"
-grpcio = ">=1.62.2"
+grpcio = ">=1.62.3"
 protobuf = ">=4.21.6"
 
 [[package]]
@@ -1531,13 +1531,13 @@ files = [
 
 [[package]]
 name = "smartjob"
-version = "0.0.6"
+version = "0.0.10"
 description = "Little async python library for dealing with GCP/Cloud Run Jobs and GCP/VertexAI CustomJobs"
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "smartjob-0.0.6-py3-none-any.whl", hash = "sha256:d8513dea8abb430a9b412f63bffdb2fac21afeb9aa820baf10a991dec3ff2897"},
-    {file = "smartjob-0.0.6.tar.gz", hash = "sha256:cdb40dfaefc6ece13a6f5ba278808ce6d8d50e2a9dffe6129a156325aee890d5"},
+    {file = "smartjob-0.0.10-py3-none-any.whl", hash = "sha256:e546100c20a894d97bae4ef8596ce5aadca7d2df8487921fc356d71bbf8ae17e"},
+    {file = "smartjob-0.0.10.tar.gz", hash = "sha256:1dd4fbc41397469b49379316deda80041681475b60a26b672577a266d1f8a859"},
 ]
 
 [package.dependencies]
@@ -1884,4 +1884,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f414f3a323b5f1980ebf9eb2656ee64e0212680ebafac5452e88040b32696a7a"
+content-hash = "c31847546ae2ad0b522e91eea3a4478098209750e59333825818c5bb3f3f889d"

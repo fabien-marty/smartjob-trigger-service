@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-smartjob = "^0.0.6"
+smartjob = "^0.0.10"
 fastapi = {extras = ["standard"], version = "^0.112.0"}
 
 
