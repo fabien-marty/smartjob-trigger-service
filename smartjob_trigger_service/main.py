@@ -45,6 +45,25 @@ async def hello():
     return {"message": "Hello World"}
 
 
+def get_gcs_path_from_body(body: dict) -> str:
+    id = body["id"]
+    bucket = body["bucket"]
+    generation = body["generation"]
+    if not id.startswith(bucket):
+        raise HTTPException(
+            status_code=400,
+            detail="The 'id' property must start with the 'bucket' property",
+        )
+    if not id.endswith(f"/{generation}"):
+        raise HTTPException(
+            status_code=400,
+            detail="The 'id' property must end with the 'generation' property",
+        )
+    tmp = id[len(bucket) + 1 :]  # +1 because we want also to remove the slash
+    path = tmp[: -len(f"/{generation}")]
+    return f"gs://{bucket}/{path}"
+
+
 async def get_job_and_input(
     request: Request, namespace: str, name: str
 ) -> tuple[CloudRunSmartJob, Input]:
@@ -54,7 +73,7 @@ async def get_job_and_input(
     except json.decoder.JSONDecodeError:
         raise HTTPException(status_code=400, detail="Invalid JSON body")
     logger.debug("received body: %s" % json.dumps(body, indent=4))
-    for prop in ("kind", "id", "bucket"):
+    for prop in ("kind", "id", "bucket", "generation"):
         if prop not in body:
             raise HTTPException(
                 status_code=400, detail=f"'{prop}' property not found in the JSON body"
@@ -63,15 +82,7 @@ async def get_job_and_input(
         raise HTTPException(
             status_code=400, detail="The 'kind' property must be 'storage#object'"
         )
-    id = body["id"]
-    bucket = body["bucket"]
-    if not id.startswith(bucket):
-        raise HTTPException(
-            status_code=400,
-            detail="The 'id' property must start with the 'bucket' property",
-        )
-    path = id[len(body["bucket"]) + 1 :]  # +1 because we want also to remove the slash
-    gcs_path = f"gs://{bucket}/{path}"
+    gcs_path = get_gcs_path_from_body(body)
     logger.debug("gcs input path: %s" % gcs_path)
     input = GcsInput(filename="incoming_file", gcs_path=gcs_path)
     job = CloudRunSmartJob(
