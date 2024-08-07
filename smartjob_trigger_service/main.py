@@ -93,6 +93,9 @@ async def get_job_and_input(
         service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
         cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
         memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
+        add_envs={
+            "SMARTJOB_TRIGGER_SERVICE_FULL_PATH": gcs_path,
+        },
     )
     return job, input
 

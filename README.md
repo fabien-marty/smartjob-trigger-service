@@ -9,8 +9,10 @@ This is a **generic** GCP/Cloud Run Service (docker image):
 
 ## Features
 
-- download the object that triggered the event and inject it in the Cloud Run Job as an input parameter (thanks to the [smartjob](https://githiub.com/fabien-marty/smartjob) library) under the name `incoming_file`
-- can wait for the job completion or just schedule the execution
+- [x] download the object that triggered the event and inject it in the Cloud Run Job as an input parameter (thanks to the [smartjob](https://github.com/fabien-marty/smartjob) library) under the name `incoming_file`
+- [x] inject the triggering file full path (starting with `gs://...`) in an env var: `SMARTJOB_TRIGGER_SERVICE_FULL_PATH` (available in the job container)
+- [x] can wait for the job completion or just schedule the execution
+- [ ] support for the event type: `storage.objects.create` for advanced filtering capabilities (in EventArc)
 
 ## Installation / configuration
 
