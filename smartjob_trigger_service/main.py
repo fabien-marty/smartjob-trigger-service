@@ -39,6 +39,10 @@ def get_smartjob_memory_gb_from_env(e: str | None) -> float:
 
 app = FastAPI(lifespan=lifespan)
 
+extra_envs: dict[str, str] = {
+    k[19:]: v for k, v in os.environ.items() if k.startswith("SMARTJOB_EXTRA_ENV_")
+}
+
 
 @app.get("/")
 async def hello():
@@ -108,6 +112,7 @@ def get_job_and_input_from_create_event(
         memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
         add_envs={
             "SMARTJOB_TRIGGER_SERVICE_FULL_PATH": gcs_path,
+            **extra_envs,
         },
     )
     return job, input
@@ -157,6 +162,7 @@ def get_job_and_input_from_finalized_event(
         memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
         add_envs={
             "SMARTJOB_TRIGGER_SERVICE_FULL_PATH": gcs_path,
+            **extra_envs,
         },
     )
     return job, input
