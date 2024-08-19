@@ -4,7 +4,15 @@ from contextlib import asynccontextmanager
 
 import stlog
 from fastapi import FastAPI, HTTPException, Request
-from smartjob import CloudRunSmartJob, GcsInput, Input, get_executor_service_singleton
+from smartjob import (
+    ExecutionConfig,
+    GcsInput,
+    Input,
+    RetryConfig,
+    SmartJob,
+    TimeoutConfig,
+    get_executor_service,
+)
 
 
 def check_env_or_raise():
@@ -43,6 +51,18 @@ extra_envs: dict[str, str] = {
     k[19:]: v for k, v in os.environ.items() if k.startswith("SMARTJOB_EXTRA_ENV_")
 }
 
+execution_config = ExecutionConfig(
+    timeout_config=TimeoutConfig(
+        timeout_seconds=int(os.environ.get("SMARTJOB_TIMEOUT_SECONDS", "3600"))
+    ),
+    retry_config=RetryConfig(
+        max_attempts=int(os.environ.get("SMARTJOB_MAX_ATTEMPTS", "3"))
+    ),
+    service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
+    cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
+    memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
+)
+
 
 @app.get("/")
 async def hello():
@@ -51,7 +71,7 @@ async def hello():
 
 async def get_job_and_input(
     request: Request, namespace: str, name: str
-) -> tuple[CloudRunSmartJob, Input]:
+) -> tuple[SmartJob, Input]:
     logger = stlog.getLogger("smartjob-trigger-service")
     try:
         body = await request.json()
@@ -75,7 +95,7 @@ async def get_job_and_input(
 
 def get_job_and_input_from_create_event(
     namespace: str, name: str, body: dict
-) -> tuple[CloudRunSmartJob, Input]:
+) -> tuple[SmartJob, Input]:
     logger = stlog.getLogger("smartjob-trigger-service")
     if "protoPayload" not in body:
         raise HTTPException(
@@ -102,14 +122,10 @@ def get_job_and_input_from_create_event(
     gcs_path = f"gs://{bucket}/{path}"
     logger.debug("gcs input path: %s" % gcs_path)
     input = GcsInput(filename="incoming_file", gcs_path=gcs_path)
-    job = CloudRunSmartJob(
+    job = SmartJob(
         name=name,
         namespace=namespace,
         docker_image=os.environ["SMARTJOB_DOCKER_IMAGE"],
-        timeout_seconds=int(os.environ.get("SMARTJOB_TIMEOUT_SECONDS", 3600)),
-        service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
-        cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
-        memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
         add_envs={
             "SMARTJOB_TRIGGER_SERVICE_FULL_PATH": gcs_path,
             **extra_envs,
@@ -120,7 +136,7 @@ def get_job_and_input_from_create_event(
 
 def get_job_and_input_from_finalized_event(
     namespace: str, name: str, body: dict
-) -> tuple[CloudRunSmartJob, Input]:
+) -> tuple[SmartJob, Input]:
     def get_gcs_path_from_body(body: dict) -> str:
         id = body["id"]
         bucket = body["bucket"]
@@ -152,14 +168,10 @@ def get_job_and_input_from_finalized_event(
     gcs_path = get_gcs_path_from_body(body)
     logger.debug("gcs input path: %s" % gcs_path)
     input = GcsInput(filename="incoming_file", gcs_path=gcs_path)
-    job = CloudRunSmartJob(
+    job = SmartJob(
         name=name,
         namespace=namespace,
         docker_image=os.environ["SMARTJOB_DOCKER_IMAGE"],
-        timeout_seconds=int(os.environ.get("SMARTJOB_TIMEOUT_SECONDS", 3600)),
-        service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
-        cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
-        memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
         add_envs={
             "SMARTJOB_TRIGGER_SERVICE_FULL_PATH": gcs_path,
             **extra_envs,
@@ -172,9 +184,11 @@ def get_job_and_input_from_finalized_event(
 async def schedule(request: Request, namespace: str, name: str):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received schedule request")
-    executor_service = get_executor_service_singleton()
+    executor_service = get_executor_service("cloudrun")
     job, input = await get_job_and_input(request, namespace, name)
-    future = await executor_service.schedule(job, inputs=[input])
+    future = await executor_service.schedule(
+        job, inputs=[input], execution_config=execution_config
+    )
     execution_id = future.execution_id
     log_url = future.log_url
     future._cancel()  # we don't want to be notified about the job completion
@@ -189,9 +203,11 @@ async def schedule(request: Request, namespace: str, name: str):
 async def run(request: Request, namespace: str, name: str):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received run request")
-    executor_service = get_executor_service_singleton()
+    executor_service = get_executor_service("cloudrun")
     job, input = await get_job_and_input(request, namespace, name)
-    result = await executor_service.run(job, inputs=[input])
+    result = await executor_service.run(
+        job, inputs=[input], execution_config=execution_config
+    )
     if not result:
         raise HTTPException(
             status_code=500, detail="Job launch failed, job_log_url=%s" % result.log_url

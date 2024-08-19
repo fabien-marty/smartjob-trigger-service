@@ -6,8 +6,8 @@ authors = ["Fabien MARTY <fab@fabien-marty.dev>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-smartjob = "^0.0.10"
+python = "^3.11"
+smartjob = "^0.0.11"
 fastapi = {extras = ["standard"], version = "^0.112.0"}
 
 

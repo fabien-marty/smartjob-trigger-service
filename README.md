@@ -26,6 +26,7 @@ This is a **generic** GCP/Cloud Run Service (docker image):
     - `SMARTJOB_DOCKER_IMAGE=full-path-of-a-docker-image` **(mandatory)** (example: `docker.io/python:3.12`)
     - `SMARTJOB_LOG_LEVEL=INFO` *(optional, log level of the service, default to `INFO`)*
     - `SMARTJOB_TIMEOUT_SECONDS=number-of-seconds` *(optional, timeout of the job in seconds, default to `3600`)*
+    - `SMARTJOB_MAX_ATTEMPTS=max-attempts-of-seconds` *(optional, number of attempts, default to `3`)*
     - `SMARTJOB_SERVICE_ACCOUNT=service-account-email` *(optional, service account to use for the job, default to GCP default)*
     - `SMARTJOB_CPU=1.0` *(optional, number of CPUs required for the job, default to `1.0`, can be fractional)*
     - `SMARTJOB_MEMORY_GB=0.5` *(optional, number of GB of memory required for the job, default to `0.5`, can be fractional)*
