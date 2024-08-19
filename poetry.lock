@@ -1562,13 +1562,13 @@ files = [
 
 [[package]]
 name = "smartjob"
-version = "0.0.11"
+version = "0.0.12"
 description = "Little async python library for dealing with GCP/Cloud Run Jobs and GCP/VertexAI CustomJobs"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "smartjob-0.0.11-py3-none-any.whl", hash = "sha256:a0a7180512caa03f32556724c538bb40ba1509c6bcde9ddaa0639dba4c68bfe2"},
-    {file = "smartjob-0.0.11.tar.gz", hash = "sha256:49bc1973a7b37084d35c2a07cee3c30375a6f0ce6e48ebf3253ae5a984a261a8"},
+    {file = "smartjob-0.0.12-py3-none-any.whl", hash = "sha256:0d1f0f1563e6c5f501521a22341cb560e096abd6d6026c805ea547b3c4ead418"},
+    {file = "smartjob-0.0.12.tar.gz", hash = "sha256:8ec9000f9610ef3cc7b9a533b74a5c89e0ebbf2aeada6ab197f1505d169bcf20"},
 ]
 
 [package.dependencies]
@@ -1611,13 +1611,13 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7
 
 [[package]]
 name = "stlog"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = "<4.0,>=3.7"
 files = [
-    {file = "stlog-0.2.0-py3-none-any.whl", hash = "sha256:8f76bdad1894cecea8e4f816aaedebe41f78eb74906ceff21b6bcc0dd1614382"},
-    {file = "stlog-0.2.0.tar.gz", hash = "sha256:676738755143bf4e871435feda854f386dc9bea692fd33d108afb3557862d13b"},
+    {file = "stlog-0.2.1-py3-none-any.whl", hash = "sha256:120fcf0cc46e0d9679d7b9d8a59941873e786d97103afe1f77c7e680ae02643b"},
+    {file = "stlog-0.2.1.tar.gz", hash = "sha256:7d0ba7d1fcbf9313651a46c3cea193efadd4d7fa0ec48e0f9748b41109d6384a"},
 ]
 
 [[package]]
@@ -1932,4 +1932,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "108d5f87d822b0e260fb23c2387b2863361241bfdfd9db8a9fa8207fa937dfaf"
+content-hash = "a1edb74c8eda348bea0ef8711eeaccad398d8a1ade91bdabb97026f32f9ec5b5"
