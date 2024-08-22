@@ -61,6 +61,11 @@ execution_config = ExecutionConfig(
     service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
     cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
     memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
+    labels={
+        k[15:].lower(): v
+        for k, v in os.environ.items()
+        if k.startswith("SMARTJOB_LABEL_")
+    },
 )
 
 
