@@ -30,8 +30,8 @@ This is a **generic** GCP/Cloud Run Service (docker image):
     - `SMARTJOB_SERVICE_ACCOUNT=service-account-email` *(optional, service account to use for the job, default to GCP default)*
     - `SMARTJOB_CPU=1.0` *(optional, number of CPUs required for the job, default to `1.0`, can be fractional)*
     - `SMARTJOB_MEMORY_GB=0.5` *(optional, number of GB of memory required for the job, default to `0.5`, can be fractional)*
-    - `SMARTJOB_EXTRA_ENV_*=env-value` *(optional, if set it will inject extra variables into the job env, example: `SMARTJOB_EXTRA_ENV_FOO_BAR=baz` will inject `FOO_BAR=baz` into the job env)
-    - `SMARTJOB_LABEL_*=label-value` *(optional, if set it will add corresponding labels to the created job, example: `SMARTJOB_LABEL_FOO=bar` will add a label `foo=bar`)
+    - `SMARTJOB_EXTRA_ENV_*=env-value` *(optional, if set it will inject extra variables into the job env, example: `SMARTJOB_EXTRA_ENV_FOO_BAR=baz` will inject `FOO_BAR=baz` into the job env)*
+    - `SMARTJOB_LABEL_*=label-value` *(optional, if set it will add corresponding labels to the created job, example: `SMARTJOB_LABEL_FOO=bar` will add a label `foo=bar`)*
 
 2️⃣ Create an EventArc configuration with following parameters:
 
