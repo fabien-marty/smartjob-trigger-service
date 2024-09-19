@@ -66,6 +66,8 @@ execution_config = ExecutionConfig(
         for k, v in os.environ.items()
         if k.startswith("SMARTJOB_LABEL_")
     },
+    vpc_connector_network=os.environ.get("SMARTJOB_VPC_CONNECTOR_NETWORK"),
+    vpc_connector_subnetwork=os.environ.get("SMARTJOB_VPC_CONNECTOR_SUBNETWORK"),
 )
 
 
