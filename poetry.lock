@@ -291,13 +291,13 @@ standard = ["uvicorn[standard] (>=0.15.0)"]
 
 [[package]]
 name = "google-api-core"
-version = "2.19.2"
+version = "2.20.0"
 description = "Google API client core library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google_api_core-2.19.2-py3-none-any.whl", hash = "sha256:53ec0258f2837dd53bbd3d3df50f5359281b3cc13f800c941dd15a9b5a415af4"},
-    {file = "google_api_core-2.19.2.tar.gz", hash = "sha256:ca07de7e8aa1c98a8bfca9321890ad2340ef7f2eb136e558cee68f24b94b0a8f"},
+    {file = "google_api_core-2.20.0-py3-none-any.whl", hash = "sha256:ef0591ef03c30bb83f79b3d0575c3f31219001fc9c5cf37024d08310aeffed8a"},
+    {file = "google_api_core-2.20.0.tar.gz", hash = "sha256:f74dff1889ba291a4b76c5079df0711810e2d9da81abfdc99957bc961c1eb28f"},
 ]
 
 [package.dependencies]
@@ -316,13 +316,13 @@ grpcio-gcp = ["grpcio-gcp (>=0.2.2,<1.0.dev0)"]
 
 [[package]]
 name = "google-auth"
-version = "2.34.0"
+version = "2.35.0"
 description = "Google Authentication Library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "google_auth-2.34.0-py2.py3-none-any.whl", hash = "sha256:72fd4733b80b6d777dcde515628a9eb4a577339437012874ea286bca7261ee65"},
-    {file = "google_auth-2.34.0.tar.gz", hash = "sha256:8eb87396435c19b20d32abd2f984e31c191a15284af72eb922f10e5bde9c04cc"},
+    {file = "google_auth-2.35.0-py2.py3-none-any.whl", hash = "sha256:25df55f327ef021de8be50bad0dfd4a916ad0de96da86cd05661c9297723ad3f"},
+    {file = "google_auth-2.35.0.tar.gz", hash = "sha256:f4c64ed4e01e8e8b646ef34c018f8bf3338df0c8e37d8b3bba40e7f574a3278a"},
 ]
 
 [package.dependencies]
@@ -1536,13 +1536,13 @@ files = [
 
 [[package]]
 name = "smartjob"
-version = "0.0.20"
+version = "0.0.21"
 description = "Little async python library for dealing with GCP/Cloud Run Jobs and GCP/VertexAI CustomJobs"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "smartjob-0.0.20-py3-none-any.whl", hash = "sha256:c8a08b40d870eb69d457da050d16ab1eef314399969cee83b0a836da239ad3ec"},
-    {file = "smartjob-0.0.20.tar.gz", hash = "sha256:a835a542cf4d5ce4d8e10bd5156185173d6b3daf7a7fcf2aa807be3b1f13c4df"},
+    {file = "smartjob-0.0.21-py3-none-any.whl", hash = "sha256:0088250dd3d974e7e32b2099ca1fb5ed8a5bed420baf008d9a9eefa2267a02a1"},
+    {file = "smartjob-0.0.21.tar.gz", hash = "sha256:8d3939d2d1b4971d47e3f5827ec87d68fa3dc785f92d4c3ee0fbc06393cd80cc"},
 ]
 
 [package.dependencies]
@@ -1916,4 +1916,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "09a3a23999feb1f1d203b08047f090d2fb41ec209e4d9265c0ec4546d0ec694c"
+content-hash = "98733b1eedd065cdc022a152d1893281372e8c4fc7ae0e9c79d6f5b63aa77ae0"
