@@ -60,6 +60,7 @@ execution_config = ExecutionConfig(
     ),
     service_account=os.environ.get("SMARTJOB_SERVICE_ACCOUNT"),
     cpu=get_smartjob_cpu_from_env(os.environ.get("SMARTJOB_CPU")),
+    machine_type=os.environ.get("SMARTJOB_MACHINE_TYPE"),
     memory_gb=get_smartjob_memory_gb_from_env(os.environ.get("SMARTJOB_MEMORY_GB")),
     labels={
         k[15:].lower(): v
@@ -69,6 +70,8 @@ execution_config = ExecutionConfig(
     vpc_connector_network=os.environ.get("SMARTJOB_VPC_CONNECTOR_NETWORK"),
     vpc_connector_subnetwork=os.environ.get("SMARTJOB_VPC_CONNECTOR_SUBNETWORK"),
 )
+
+executor = os.environ.get("SMARTJOB_EXECUTOR", "cloudrun")
 
 
 @app.get("/")
@@ -191,7 +194,7 @@ def get_job_and_input_from_finalized_event(
 async def schedule(request: Request, namespace: str, name: str):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received schedule request")
-    executor_service = get_executor_service("cloudrun")
+    executor_service = get_executor_service(executor)
     job, input = await get_job_and_input(request, namespace, name)
     future = await executor_service.schedule(
         job, inputs=[input], execution_config=execution_config
@@ -210,7 +213,7 @@ async def schedule(request: Request, namespace: str, name: str):
 async def run(request: Request, namespace: str, name: str):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received run request")
-    executor_service = get_executor_service("cloudrun")
+    executor_service = get_executor_service(executor)
     job, input = await get_job_and_input(request, namespace, name)
     result = await executor_service.run(
         job, inputs=[input], execution_config=execution_config
