@@ -1563,7 +1563,7 @@ typer = ">= 0.12.3"
 type = "git"
 url = "https://github.com/fabien-marty/smartjob.git"
 reference = "sync"
-resolved_reference = "156d1049c81056c40f40ca7476c8817c2992570a"
+resolved_reference = "c22323b4594493831666b8e44d7c9913b3875d16"
 
 [[package]]
 name = "sniffio"
