@@ -3,7 +3,7 @@ import os
 from contextlib import asynccontextmanager
 
 import stlog
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Body, FastAPI, HTTPException, Request
 from smartjob import (
     ExecutionConfig,
     GcsInput,
@@ -79,14 +79,8 @@ async def hello():
     return {"message": "Hello World"}
 
 
-async def get_job_and_input(
-    request: Request, namespace: str, name: str
-) -> tuple[SmartJob, Input]:
+def get_job_and_input(body: dict, namespace: str, name: str) -> tuple[SmartJob, Input]:
     logger = stlog.getLogger("smartjob-trigger-service")
-    try:
-        body = await request.json()
-    except json.decoder.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid JSON body")
     logger.debug("received body: %s" % json.dumps(body, indent=4))
     if body.get("kind", "") == "storage#object":
         return get_job_and_input_from_finalized_event(namespace, name, body)
@@ -191,17 +185,16 @@ def get_job_and_input_from_finalized_event(
 
 
 @app.post("/schedule/{namespace}/{name}")
-async def schedule(request: Request, namespace: str, name: str):
+def schedule(request: Request, namespace: str, name: str, body: dict = Body(...)):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received schedule request")
     executor_service = get_executor_service(executor)
-    job, input = await get_job_and_input(request, namespace, name)
-    future = await executor_service.schedule(
-        job, inputs=[input], execution_config=execution_config
+    job, input = get_job_and_input(body, namespace, name)
+    details, _ = executor_service.schedule(
+        job, inputs=[input], execution_config=execution_config, forget=True
     )
-    execution_id = future.execution_id
-    log_url = future.log_url
-    future._cancel()  # we don't want to be notified about the job completion
+    execution_id = details.execution_id
+    log_url = details.log_url
     return {
         "message": "job scheduled",
         "execution_id": execution_id,
@@ -210,12 +203,12 @@ async def schedule(request: Request, namespace: str, name: str):
 
 
 @app.post("/run/{namespace}/{name}")
-async def run(request: Request, namespace: str, name: str):
+def run(request: Request, namespace: str, name: str, body: dict = Body(...)):
     logger = stlog.getLogger("smartjob-trigger-service")
     logger.info("received run request")
     executor_service = get_executor_service(executor)
-    job, input = await get_job_and_input(request, namespace, name)
-    result = await executor_service.run(
+    job, input = get_job_and_input(body, namespace, name)
+    result = executor_service.run(
         job, inputs=[input], execution_config=execution_config
     )
     if not result:
