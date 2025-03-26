@@ -5,7 +5,7 @@
 This is a **generic** GCP/Cloud Run Service (docker image):
 
 - to receive GCP/EventArc notifications about new objects created in a bucket (event type: `google.cloud.storage.object.v1.finalized`)
-- and to launch a GCP/Cloud Run Job (or Vertex Custom Job) with the [smartjob](https://github.com/fabien-marty/smartjob) library
+- and to launch a GCP/Cloud Run Job (or GCP/Batch Job or GCP/Vertex Custom Job) with the [smartjob](https://github.com/fabien-marty/smartjob) library
 
 ## Features
 
@@ -31,9 +31,9 @@ This is a **generic** GCP/Cloud Run Service (docker image):
     - `SMARTJOB_SERVICE_ACCOUNT=service-account-email` *(optional, service account to use for the job, default to GCP default)*
     - `SMARTJOB_CPU=1.0` *(optional, number of CPUs required for the job, default to `1.0`, can be fractional, specific to `executor=cloudrun`, limited to 8)*
     - `SMARTJOB_MEMORY_GB=0.5` *(optional, number of GB of memory required for the job, default to `0.5`, can be fractional, specific to `executor=cloudrun`, limited to 32)*
-    - `SMARTJOB_MACHINE_TYPE=n2-standard-64` *(optional, specific to `executor=vertex`, machine type to use)*
-    - `SMARTJOB_VPC_CONNECTOR_NETWORK=...` *(optional, VPC network to connect to)*
-    - `SMARTJOB_VPC_CONNECTOR_SUBNETWORK=...` *(optional, VPC subnetwork to connect to)*
+    - `SMARTJOB_MACHINE_TYPE=n2-standard-64` *(optional, specific to `executor=vertex` or `executor=batch`, machine type to use)*
+    - `SMARTJOB_VPC_CONNECTOR_NETWORK=...` *(optional, VPC network to connect to, does not work for `executor=vertex`)*
+    - `SMARTJOB_VPC_CONNECTOR_SUBNETWORK=...` *(optional, VPC subnetwork to connect to, does not work for `executor=vertex`)*
     - `SMARTJOB_EXTRA_ENV_*=env-value` *(optional, if set it will inject extra variables into the job env, example: `SMARTJOB_EXTRA_ENV_FOO_BAR=baz` will inject `FOO_BAR=baz` into the job env)*
     - `SMARTJOB_LABEL_*=label-value` *(optional, if set it will add corresponding labels to the created job, example: `SMARTJOB_LABEL_FOO=bar` will add a label `foo=bar`)*
 

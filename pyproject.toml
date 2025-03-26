@@ -7,8 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-# smartjob = { git = "https://github.com/fabien-marty/smartjob.git", branch = "sync" }
-smartjob = "^0.0.27"
+smartjob = { git = "https://github.com/fabien-marty/smartjob.git", branch = "add-cloudbatch-support" }
+# smartjob = { git = ""^0.0.27"
 fastapi = { extras = ["standard"], version = "^0.112.0" }
 
 [tool.poetry.group.dev.dependencies]
