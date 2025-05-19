@@ -69,6 +69,11 @@ execution_config = ExecutionConfig(
     },
     vpc_connector_network=os.environ.get("SMARTJOB_VPC_CONNECTOR_NETWORK"),
     vpc_connector_subnetwork=os.environ.get("SMARTJOB_VPC_CONNECTOR_SUBNETWORK"),
+    sidecars_container_images=[
+        x.strip()
+        for x in os.environ.get("SMARTJOB_SIDECARS_CONTAINER_IMAGES", "").split(",")
+        if x.strip()
+    ],
 )
 
 executor = os.environ.get("SMARTJOB_EXECUTOR", "cloudrun")
