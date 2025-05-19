@@ -24,7 +24,7 @@ This is a **generic** GCP/Cloud Run Service (docker image):
     - `SMARTJOB_REGION=your-gcp-region` **(mandatory)**
     - `SMARTJOB_STAGING_BUCKET=gs://a-bucket-for-hosting-inputs-outputs-of-the-job` **(mandatory)**
     - `SMARTJOB_DOCKER_IMAGE=full-path-of-a-docker-image` **(mandatory)** (example: `docker.io/python:3.12`)
-    - `SMARTJOB_EXECUTOR=cloudrun` *(optional, `cloudrun` for launching Cloud Run Job or `vertex` for launching Vertex Custom Job)*
+    - `SMARTJOB_EXECUTOR=cloudrun` *(optional, `cloudrun` for launching Cloud Run Job, `cloudbatch` or `vertex`)*
     - `SMARTJOB_LOG_LEVEL=INFO` *(optional, log level of the service, default to `INFO`)*
     - `SMARTJOB_TIMEOUT_SECONDS=number-of-seconds` *(optional, timeout of the job in seconds, default to `3600`)*
     - `SMARTJOB_MAX_ATTEMPTS=max-attempts` *(optional, number of attempts, default to `3`)*
@@ -32,10 +32,11 @@ This is a **generic** GCP/Cloud Run Service (docker image):
     - `SMARTJOB_CPU=1.0` *(optional, number of CPUs required for the job, default to `1.0`, can be fractional, specific to `executor=cloudrun`, limited to 8)*
     - `SMARTJOB_MEMORY_GB=0.5` *(optional, number of GB of memory required for the job, default to `0.5`, can be fractional, specific to `executor=cloudrun`, limited to 32)*
     - `SMARTJOB_MACHINE_TYPE=n2-standard-64` *(optional, specific to `executor=vertex` or `executor=batch`, machine type to use)*
-    - `SMARTJOB_VPC_CONNECTOR_NETWORK=...` *(optional, VPC network to connect to, does not work for `executor=vertex`)*
-    - `SMARTJOB_VPC_CONNECTOR_SUBNETWORK=...` *(optional, VPC subnetwork to connect to, does not work for `executor=vertex`)*
+    - `SMARTJOB_VPC_CONNECTOR_NETWORK=...` *(optional, VPC network to connect to, does not work for `executor=vertex` or `executor=cloudbatch`)*
+    - `SMARTJOB_VPC_CONNECTOR_SUBNETWORK=...` *(optional, VPC subnetwork to connect to, does not work for `executor=vertex` or `executor=cloudbatch`)*
     - `SMARTJOB_EXTRA_ENV_*=env-value` *(optional, if set it will inject extra variables into the job env, example: `SMARTJOB_EXTRA_ENV_FOO_BAR=baz` will inject `FOO_BAR=baz` into the job env)*
     - `SMARTJOB_LABEL_*=label-value` *(optional, if set it will add corresponding labels to the created job, example: `SMARTJOB_LABEL_FOO=bar` will add a label `foo=bar`)*
+    - `SMARTJOB_SIDECARS_CONTAINER_IMAGES=...` *(optional, if set to a coma separated list, it will start corresponding sidecars containers with a shared volume under `/shared`)*
 
 2️⃣ Create an EventArc configuration with following parameters:
 
