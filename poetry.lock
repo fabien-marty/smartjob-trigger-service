@@ -1582,13 +1582,13 @@ files = [
 
 [[package]]
 name = "smartjob"
-version = "0.0.32"
+version = "0.0.33"
 description = "Little async python library for dealing with GCP/Cloud Run Jobs, GCP/Cloud Batch Jobs, GCP/VertexAI CustomJobs and (local) Docker jobs"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "smartjob-0.0.32-py3-none-any.whl", hash = "sha256:eef406841abc9c81487f472653569744166f21ec4e5d7f11ec618e7842e72391"},
-    {file = "smartjob-0.0.32.tar.gz", hash = "sha256:091064907dd1a137eba562a0a02ddc585df145a8af28312b0382669c5db4940b"},
+    {file = "smartjob-0.0.33-py3-none-any.whl", hash = "sha256:5515555c5c35119a68e3c67aab393267731dbd5904ab00dc7a5a1722ad2a881d"},
+    {file = "smartjob-0.0.33.tar.gz", hash = "sha256:b6d6b3b65a9b1ded7416eab71fd0ef41ab5148531478fe9caf7b0a146aa47214"},
 ]
 
 [package.dependencies]
@@ -1964,4 +1964,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4b63d4fdccb4ab5b73644ac1de67cfb0346fc1747c9717146a89bdf58fddb57e"
+content-hash = "b5557bcc92ae2c26d005cc7206c736dbdfa12a35c38f1131f974916cf2e4cb0f"
